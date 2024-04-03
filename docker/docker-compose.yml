@@ -1,0 +1,41 @@
+version: '3.4'
+
+services:
+  mysql:
+    restart: always
+    privileged: true
+    image: mysql:8.0
+    container_name: mysql
+    volumes:
+      - ./db:/var/lib/mysql
+      - ./logs:/logs
+    command:
+      --character-set-server=utf8mb4
+      --collation-server=utf8mb4_general_ci
+      --explicit_defaults_for_timestamp=true
+    environment:
+      MYSQL_ROOT_PASSWORD: "Abc*(12345)67890"
+      MYSQL_USER: "clinic"
+      MYSQL_PASSWORD: "Abc$*(12345)67890"
+      MYSQL_INITDB_SKIP_TZINFO: "Asia/Shanghai"
+    ports:
+        - 3306:3306
+    network_mode: "bridge"
+  nginx:
+    container_name: nginx 
+    image: nginx
+    restart: always
+    links:
+      - clinic:clinic
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - ../nginx_http.conf:/etc/nginx/sites-enabled/default
+      - ../web/dist:/usr/share/nginx/html
+  clinic:
+    container_name: clinic
+    image: cuihairu/clinic:v0.1.0 
+    ports:
+      - 2347:2347
+
