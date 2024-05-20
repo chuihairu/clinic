@@ -101,6 +101,7 @@
 		</repository>
 	</repositories>
 	<build>
+		<finalName>clinic-server</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
