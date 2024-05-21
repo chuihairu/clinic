@@ -11,6 +11,7 @@ import java.io.Serializable;
 @Data
 public class ExceptionView implements Serializable {
     @Schema(title = "业务成功与否",description ="业务是否成功" ,example = "false")
+    @Builder.Default
     Boolean success = false;
     @Schema(title = "异常信息",description ="异常信息，返回错误的信" ,example = "未知的错误")
     String errorMessage;

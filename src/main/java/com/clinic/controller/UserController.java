@@ -6,7 +6,6 @@ import com.clinic.params.AuthParams;
 import com.clinic.service.JwtService;
 import com.clinic.service.StaffService;
 import com.clinic.vo.LoginView;
-import com.clinic.vo.Resp;
 import com.clinic.vo.UserView;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.Cookie;

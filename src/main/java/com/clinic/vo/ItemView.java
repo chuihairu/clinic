@@ -3,13 +3,9 @@ package com.clinic.vo;
 
 import com.clinic.entity.ItemEntity;
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Data;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
-
 import java.util.Date;
 
 @Builder

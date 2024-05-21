@@ -34,6 +34,7 @@ public class StaffView implements Serializable {
     @Schema(title = "性别",description = "性别",example = "男")
     Integer gender;
     @Schema(title = "职位",description = "职位" ,example = "1")
+    @Builder.Default
     Integer role=99;
     @Schema(title = "生日",description = "生日",example = "1990-1-1")
     Date birthday;

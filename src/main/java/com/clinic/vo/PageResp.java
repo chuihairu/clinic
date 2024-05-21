@@ -1,7 +1,5 @@
 package com.clinic.vo;
 
-import lombok.Builder;
-
 import java.util.List;
 
 // 分页查询的返回

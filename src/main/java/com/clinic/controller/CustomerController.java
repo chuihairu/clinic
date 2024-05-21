@@ -239,7 +239,7 @@ public class CustomerController {
         });
         customerView.updateCustomerEntity(customerEntity);
         CustomerEntity save = customerService.save(customerEntity);
-        return customerView.FromCustomerEntity(save);
+        return CustomerView.FromCustomerEntity(save);
     }
 
     @Operation(summary = "删除客人", description = "根据用户的id来删除客人信息")

@@ -1,7 +1,6 @@
 package com.clinic.vo;
 
 import com.clinic.entity.ReviewCustomerEntity;
-import com.clinic.entity.ReviewStaffEntity;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;

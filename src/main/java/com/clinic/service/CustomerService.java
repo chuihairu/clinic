@@ -1,7 +1,6 @@
 package com.clinic.service;
 
 import com.clinic.entity.CustomerEntity;
-import jakarta.persistence.criteria.CriteriaBuilder;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
