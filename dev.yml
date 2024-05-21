@@ -3,7 +3,7 @@ services:
     restart: always
     privileged: true
     image: mysql:8.0
-    container_name: mysql
+    container_name: clinic-mysql
     volumes:
       - ./db:/var/lib/mysql
       - ./logs/mysql:/logs
@@ -20,6 +20,7 @@ services:
         - 3306:3306
     network_mode: "bridge"
   server:
+    container_name: clinic-server 
     image: clinic
     build:
       context: .
@@ -30,7 +31,7 @@ services:
       - 3000:3000
       - 5005:5005
   web:
-    container_name: web 
+    container_name: clinic-web 
     image: nginx
     restart: always
     depends_on:

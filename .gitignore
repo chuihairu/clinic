@@ -6,6 +6,8 @@ target/
 logs/
 web/.git/
 web/.idea/
+web/dist/
+web/node_modules/
 *.log
 .DS_Store
 loader/build/
@@ -42,3 +44,7 @@ build/
 .vscode/
 .obsidian/
 target/
+
+### docker
+db/
+logs/
