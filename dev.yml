@@ -1,14 +1,12 @@
-version: '3.4'
-
 services:
-  mysql:
+  db:
     restart: always
     privileged: true
     image: mysql:8.0
     container_name: mysql
     volumes:
       - ./db:/var/lib/mysql
-      - ./logs:/logs
+      - ./logs/mysql:/logs
     command:
       --character-set-server=utf8mb4
       --collation-server=utf8mb4_general_ci
@@ -21,21 +19,26 @@ services:
     ports:
         - 3306:3306
     network_mode: "bridge"
-  nginx:
-    container_name: nginx 
+  server:
+    image: clinic
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    environment:
+      JAVA_OPTS: -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005,quiet=y
+    ports:
+      - 3000:3000
+      - 5005:5005
+  web:
+    container_name: web 
     image: nginx
     restart: always
-    links:
-      - clinic:clinic
+    depends_on:
+      - server
     ports:
       - 80:80
       - 443:443
     volumes:
-      - ../nginx_http.conf:/etc/nginx/sites-enabled/default
-      - ../web/dist:/usr/share/nginx/html
-  clinic:
-    container_name: clinic
-    image: cuihairu/clinic:v0.1.0 
-    ports:
-      - 2347:2347
-
+      - ./logs/nginx:/var/log/nginx
+      - ./init/nginx_http.conf:/etc/nginx/sites-enabled/default
+      - ./web/dist:/usr/share/nginx/html
