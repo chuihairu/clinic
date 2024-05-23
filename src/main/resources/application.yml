@@ -5,15 +5,15 @@ spring:
       spec: initialCapacity=50,maximumSize=10000,expireAfterAccess=300s
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql:127.0.0.1:3306/clinic?useUnicode=true&useSSL=false&allowPublicKeyRetrieval=true
-    username: clinic
-    password: Abc$*(12345)67890
+    url: jdbc:mysql:${DB_HOST}:${DB_PORT}/${DB_NAME}?useUnicode=true&useSSL=false&allowPublicKeyRetrieval=true
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
     dbcp2:
       test-on-borrow: true
       validation-query: SELECT 1
       time-between-eviction-runs-millis: 3600000
       test-while-idle: true
-
+      min-evictable-idle-time-millis: 3600000
   jpa:
     hibernate:
       ddl-auto: update
