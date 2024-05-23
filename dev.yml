@@ -5,6 +5,7 @@ services:
     image: mysql:8.0
     container_name: clinic-mysql
     volumes:
+      - ./init/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
       - ./db:/var/lib/mysql
       - ./logs/mysql:/logs
     command:

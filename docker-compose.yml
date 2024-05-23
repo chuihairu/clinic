@@ -5,6 +5,7 @@ services:
     image: mysql:8.0
     container_name: mysql
     volumes:
+      - ./init/init.sql:docker-entrypoint-initdb.d/init.sql
       - ./db:/var/lib/mysql
       - ./logs/mysql:/logs
     command:
