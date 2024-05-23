@@ -10,7 +10,7 @@ public class PhoneValidationUtil {
      * 验证手机号
      */
     public static boolean isPhone(String iphone){
-        if (StringUtils.isEmpty(iphone)) {
+        if (!StringUtils.hasLength(iphone)) {
             return false;
         } else {
             return PATTERN.matcher(iphone).matches();
