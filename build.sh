@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 echo "build web"
-cd web
+cd web || exit
 pnpm install
 pnpm build
 echo "build server"
