@@ -1,3 +1,7 @@
 [submodule "web"]
 	path = web
 	url = git@github.com:cuihairu/clinic-web.git
+
+[submodule "loader"]
+	path = web
+	url = git@github.com:cuihairu/clinic-loader.git
