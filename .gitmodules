@@ -3,5 +3,11 @@
 	url = git@github.com:cuihairu/clinic-web.git
 
 [submodule "loader"]
-	path = web
+	path = loader
 	url = git@github.com:cuihairu/clinic-loader.git
+[submodule "miniapp"]
+	path = miniapp
+	url = git@github.com:cuihairu/clinic-app.git
+[submodule "broker"]
+	path = broker
+	url = git@github.com:cuihairu/clinic-broker.git
