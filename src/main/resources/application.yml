@@ -5,7 +5,7 @@ spring:
       spec: initialCapacity=50,maximumSize=10000,expireAfterAccess=300s
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql:${DB_HOST}:${DB_PORT}/${DB_NAME}?useUnicode=true&useSSL=false&allowPublicKeyRetrieval=true
+    url: jdbc:mysql://${DB_HOST}:${DB_PORT}/${DB_NAME}?useUnicode=true&useSSL=false&allowPublicKeyRetrieval=true
     username: ${DB_USERNAME}
     password: ${DB_PASSWORD}
     dbcp2:
