@@ -10,7 +10,7 @@ import java.util.Date;
 
 @Data
 @Entity
-@Table(name = "`customer`",indexes = {
+@Table(name = "`customers`",indexes = {
         @Index(name = "idx_customer_name",columnList = "name"),
         @Index(name = "idx_customer_phone",columnList = "phone"),
         @Index(name = "idx_customer_level",columnList = "level"),

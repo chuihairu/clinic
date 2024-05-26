@@ -11,9 +11,7 @@ spring:
     dbcp2:
       test-on-borrow: true
       validation-query: SELECT 1
-      time-between-eviction-runs-millis: 3600000
       test-while-idle: true
-      min-evictable-idle-time-millis: 3600000
   jpa:
     hibernate:
       ddl-auto: update

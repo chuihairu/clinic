@@ -11,7 +11,7 @@ import java.util.Date;
 
 @Data
 @Entity
-@Table(name = "`item`",indexes = {
+@Table(name = "`items`",indexes = {
         @Index(name = "idx_item_name",columnList = "name")
 })
 @EntityListeners(AuditingEntityListener.class)

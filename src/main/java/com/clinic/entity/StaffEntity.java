@@ -16,7 +16,7 @@ import static com.clinic.security.Role.MANAGER;
 
 @Data
 @Entity
-@Table(name = "`staff`",indexes={
+@Table(name = "`staffs`",indexes={
         @Index(name = "idx_staff_name",columnList = "name"),
         @Index(name = "idx_staff_account",columnList = "account"),
         @Index(name = "idx_staff_phone",columnList = "phone"),

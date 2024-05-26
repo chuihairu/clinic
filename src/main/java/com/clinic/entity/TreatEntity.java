@@ -16,7 +16,7 @@ import java.util.Date;
 @Setter
 @Getter
 @Entity
-@Table(name = "`treat`",indexes = {
+@Table(name = "`treats`",indexes = {
         @Index(name = "idx_treat_cid",columnList = "cid"),
         @Index(name = "idx_treat_create_time",columnList = "create_time")
 })

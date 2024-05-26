@@ -9,7 +9,7 @@ import java.util.Date;
 
 @Data
 @Entity
-@Table(name = "`recharge`",indexes = {
+@Table(name = "`recharges`",indexes = {
         @Index(name = "idx_recharge_user_id",columnList = "user_id")
 })
 @EntityListeners(AuditingEntityListener.class)
