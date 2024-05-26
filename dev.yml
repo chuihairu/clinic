@@ -19,7 +19,6 @@ services:
       MYSQL_INITDB_SKIP_TZINFO: "Asia/Shanghai"
     ports:
         - 3306:3306
-    network_mode: "bridge"
   server:
     container_name: clinic-server 
     image: clinic

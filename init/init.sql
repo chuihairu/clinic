@@ -1,4 +1,3 @@
 CREATE DATABASE IF NOT EXISTS clinic;
 CREATE USER IF NOT EXISTS 'clinic'@'%' IDENTIFIED BY 'Abc*(12345)67890';
 GRANT ALL PRIVILEGES ON clinic.* TO 'clinic'@'%';
-GRANT ALL PRIVILEGES ON clinic.* TO 'clinic'@'localhost';
