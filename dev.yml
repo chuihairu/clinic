@@ -36,7 +36,6 @@ services:
     ports:
       - 3000:3000
       - 5005:5005
-    entrypoint: ["sh", "-c", "ls -la /app && env && exec java $JAVA_OPTS -jar /app/server.jar"]
   web:
     container_name: clinic-web 
     image: nginx

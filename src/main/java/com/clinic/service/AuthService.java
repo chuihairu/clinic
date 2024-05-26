@@ -23,7 +23,7 @@ public class AuthService implements LogoutHandler, UserDetailsService {
         if (authHeader == null ||!authHeader.startsWith("Bearer ")) {
             return;
         }
-        log.info("logout:"+authHeader);
+        log.info("logout:{}", authHeader);
     }
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
