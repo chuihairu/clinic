@@ -26,15 +26,17 @@ services:
       context: .
       dockerfile: ./Dockerfile
     environment:
-      JAVA_OPTS: -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005,quiet=y
+      JAVA_OPTS: -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5008,quiet=y
       DB_HOST: db
       DB_PORT: 3306
       DB_NAME: clinic
       DB_USERNAME: clinic
       DB_PASSWORD: Abc$*(12345)67890
+      SERVER_PORT: 2347
     ports:
+      - 2347:2347
       - 3000:3000
-      - 5005:5005
+      - 5008:5008
   web:
     container_name: clinic-web 
     image: nginx
@@ -46,6 +48,6 @@ services:
       - 443:443
     volumes:
       - ./logs/nginx:/var/log/nginx
-      - ./init/nginx_http.conf:/etc/nginx/sites-enabled/default
+      - ./init/nginx_http.conf:/etc/nginx/conf.d/default.conf
       - ./web/dist:/usr/share/nginx/html
       - ./logs/server:/app/logs

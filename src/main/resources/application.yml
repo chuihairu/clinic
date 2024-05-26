@@ -41,7 +41,7 @@ application:
 
 
 server:
-  port: 2347
+  port: ${SERVER_PORT}
   servlet:
     session:
       timeout: 24h
