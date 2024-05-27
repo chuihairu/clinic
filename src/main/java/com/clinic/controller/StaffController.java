@@ -3,6 +3,8 @@ package com.clinic.controller;
 import com.clinic.entity.SignEntity;
 import com.clinic.entity.StaffEntity;
 import com.clinic.params.SignParams;
+import com.clinic.security.JwtService;
+import com.clinic.security.UserPrincipal;
 import com.clinic.service.StaffService;
 import com.clinic.util.DateUtil;
 import com.clinic.util.PhoneValidationUtil;
@@ -305,14 +307,22 @@ public class StaffController {
     })
     @PostMapping("/sign")
     public SignView sign(HttpServletRequest request,@Validated @RequestBody SignParams signParams ) throws Exception {
-        StaffEntity currentStaff = (StaffEntity)request.getSession().getAttribute("currentStaff");
+        UserPrincipal userPrincipal = (UserPrincipal)request.getSession().getAttribute(JwtService.UserPrincipal);
+        if (userPrincipal == null) {
+            throw new Exception("用户未登录");
+        }
+        StaffEntity currentStaff = userPrincipal.getStaff();
         SignEntity signResult = staffService.sign(currentStaff.getId(), signParams.getSignType());
         return SignView.FromSignEntity(signResult);
     }
 
     @GetMapping("/timesheet/today")
     public TimesheetDayView todayTimesheet(HttpServletRequest request) throws Exception {
-        StaffEntity currentStaff = (StaffEntity)request.getSession().getAttribute("currentStaff");
+        UserPrincipal userPrincipal = (UserPrincipal)request.getSession().getAttribute(JwtService.UserPrincipal);
+        if (userPrincipal == null) {
+            throw new Exception("用户未登录");
+        }
+        StaffEntity currentStaff = userPrincipal.getStaff();
         List<SignEntity> todayTimesheetList = staffService.getTodayTimesheetList(currentStaff.getId());
         TimesheetDayView.TimesheetDayViewBuilder builder = TimesheetDayView.builder();
         ArrayList<TimesheetView> timesheetViews = new ArrayList<>();
