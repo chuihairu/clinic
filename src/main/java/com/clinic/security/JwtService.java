@@ -1,27 +1,30 @@
-package com.clinic.service;
+package com.clinic.security;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+
+import java.security.Key;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
 import javax.crypto.SecretKey;
-@SuppressWarnings("deprecation")
-@Service
+
+@Component
 public class JwtService {
     public static String Header = "Authorization";
+    public static String RefreshHeader = "Refresh";
     public static String Prefix = "Bearer ";
     public static String Name = "jwt";
     @Value("${application.security.jwt.secret-key}")
     private String secretKey;
+    private SecretKey key;
     @Value("${application.security.jwt.expiration}")
     private long jwtExpiration;
     @Value("${application.security.jwt.refresh-token.expiration}")
@@ -37,7 +40,17 @@ public class JwtService {
     }
 
     public String generateToken(UserDetails userDetails) {
-        return generateToken(new HashMap<>(), userDetails);
+        if (jwtExpiration < 300L){
+            jwtExpiration = 300L;
+        }
+        return generateToken(new HashMap<>(), userDetails,jwtExpiration);
+    }
+
+    public String generateRefreshToken(UserDetails userDetails) {
+        if (refreshExpiration < jwtExpiration*2){
+            refreshExpiration = jwtExpiration*2;
+        }
+        return generateToken(new HashMap<>(), userDetails,refreshExpiration);
     }
 
     public String withPrefix(String token){
@@ -46,15 +59,9 @@ public class JwtService {
 
     public String generateToken(
             Map<String, Object> extraClaims,
-            UserDetails userDetails
+            UserDetails userDetails, Long expiration
     ) {
-        return buildToken(extraClaims, userDetails, jwtExpiration);
-    }
-
-    public String generateRefreshToken(
-            UserDetails userDetails
-    ) {
-        return buildToken(new HashMap<>(), userDetails, refreshExpiration);
+        return buildToken(extraClaims, userDetails, Math.max(expiration,300L));
     }
 
     private String buildToken(
@@ -63,12 +70,11 @@ public class JwtService {
             long expiration
     ) {
         return Jwts
-                .builder()
-                .setClaims(extraClaims)
-                .setSubject(userDetails.getUsername())
-                .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + expiration))
-                .signWith(getSignInKey(), SignatureAlgorithm.HS256)
+                .builder().claims().empty().add(extraClaims).and()
+                .subject(userDetails.getUsername())
+                .issuedAt(new Date(System.currentTimeMillis()))
+                .expiration(new Date(System.currentTimeMillis() + expiration))
+                .signWith(getSignInKey())
                 .compact();
     }
 
@@ -86,11 +92,15 @@ public class JwtService {
     }
 
     private Claims extractAllClaims(String token) {
-        return Jwts.parser().verifyWith(getSignInKey()).build().parseSignedClaims(token).getBody();
+        return Jwts.parser().verifyWith(getSignInKey()).build().parseSignedClaims(token).getPayload();
     }
 
     private SecretKey getSignInKey() {
+        if (key != null) {
+            return key;
+        }
         byte[] keyBytes = Decoders.BASE64.decode(secretKey);
-        return Keys.hmacShaKeyFor(keyBytes);
+        key = Keys.hmacShaKeyFor(keyBytes);
+        return key;
     }
 }

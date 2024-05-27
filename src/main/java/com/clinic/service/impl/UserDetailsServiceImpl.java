@@ -1,5 +1,8 @@
-package com.clinic.service;
+package com.clinic.service.impl;
 
+import com.clinic.entity.StaffEntity;
+import com.clinic.security.UserPrincipal;
+import com.clinic.service.StaffService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -11,10 +14,12 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.logout.LogoutHandler;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class AuthService implements LogoutHandler, UserDetailsService {
+public class UserDetailsServiceImpl implements LogoutHandler, UserDetailsService {
 
     private final StaffService staffService;
     @Override
@@ -27,6 +32,11 @@ public class AuthService implements LogoutHandler, UserDetailsService {
     }
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return staffService.findByAccount(username).orElseThrow(()->new UsernameNotFoundException(username + " user not found"));
+        if (username == null || username.isEmpty() || username.isBlank()) {
+            throw new UsernameNotFoundException("username is empty");
+        }
+        log.info("loadUserByUsername:{}", username);
+        var staff = staffService.findByAccount(username).orElseThrow(()->new UsernameNotFoundException(username + " user not found"));
+        return new UserPrincipal(staff);
     }
 }

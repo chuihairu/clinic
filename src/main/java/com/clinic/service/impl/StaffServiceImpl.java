@@ -12,6 +12,7 @@ import com.clinic.vo.TimesheetView;
 import jakarta.persistence.criteria.Predicate;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.domain.*;
@@ -35,13 +36,12 @@ import java.util.stream.Stream;
 @RequiredArgsConstructor
 public class StaffServiceImpl implements StaffService {
 
-
-
     private final StaffRepository staffRepository;
-    private final PasswordEncoder passwordEncoder;
     private final SignRepository signRepository;
     private static String defaultPassword ="$2a$10$7eWlG/5QWqWJ6ZXQsW8YzumIagZawwLiREv6lK8yIK9xvXCO1WDa2";// 123
     private static String defaultAdmin = "admin";
+
+    private final PasswordEncoder passwordEncoder;
     /**
      * 根据员工的id查询员工
      *
@@ -153,7 +153,7 @@ public class StaffServiceImpl implements StaffService {
         Long id = staffEntity.getId();
         if (id!= null){
             Optional<StaffEntity> byId = staffRepository.findById(id);
-            if (!byId.isEmpty()){
+            if (byId.isPresent()){
                 staffEntity.setCreateTime(byId.get().getCreateTime());
                 staffEntity.setUpdateTime(byId.get().getUpdateTime());
             }

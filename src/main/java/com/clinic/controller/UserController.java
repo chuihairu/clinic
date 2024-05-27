@@ -3,7 +3,7 @@ package com.clinic.controller;
 
 import com.clinic.entity.StaffEntity;
 import com.clinic.params.AuthParams;
-import com.clinic.service.JwtService;
+import com.clinic.security.JwtService;
 import com.clinic.service.StaffService;
 import com.clinic.vo.LoginView;
 import com.clinic.vo.UserView;
@@ -40,9 +40,9 @@ public class UserController {
         StaffEntity staffEntity = staffService.findByAccount(authParams.getUsername().trim()).orElseThrow(() -> new IllegalArgumentException("该用户不存在"));
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authParams.getUsername(),authParams.getPassword().trim()));
         String token = jwtService.generateToken(staffEntity);
+        String refreshToken = jwtService.generateRefreshToken(staffEntity);
         response.setHeader(JwtService.Header,jwtService.withPrefix(token));
-        Cookie cookie = new Cookie("jwt", token);
-        response.addCookie(cookie);
+        response.setHeader(JwtService.RefreshHeader,jwtService.withPrefix(refreshToken));
         return LoginView.builder().status("ok").type("account").token(token).currentAuthority(staffEntity.getRole()==0?"admin":"user").build();
     }
 
