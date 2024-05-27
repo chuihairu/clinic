@@ -1,5 +1,6 @@
 package com.clinic.security;
 
+import io.jsonwebtoken.security.SignatureException;
 import jakarta.servlet.http.Cookie;
 import lombok.RequiredArgsConstructor;
 import jakarta.servlet.FilterChain;
@@ -29,7 +30,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
             @NonNull HttpServletRequest request,
             @NonNull HttpServletResponse response,
             @NonNull FilterChain filterChain
-    ) throws ServletException, IOException {
+    ) throws ServletException, IOException ,SignatureException {
         final String authHeader = request.getHeader(JwtService.Header);
         if (authHeader != null && authHeader.startsWith(JwtService.Prefix)) {
             getUserPrincipal(request,authHeader);
@@ -37,7 +38,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         filterChain.doFilter(request, response);
     }
 
-    private void getUserPrincipal(@NonNull HttpServletRequest request,@NonNull String token){
+    private void getUserPrincipal(@NonNull HttpServletRequest request,@NonNull String token) throws SignatureException {
         if (SecurityContextHolder.getContext().getAuthentication() != null){
             return;
         }
@@ -60,7 +61,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
                     new WebAuthenticationDetailsSource().buildDetails(request)
             );
             SecurityContextHolder.getContext().setAuthentication(authToken);
-            request.getSession().setAttribute("userPrincipal",userDetails);
+            request.getSession().setAttribute(JwtService.UserPrincipal,userDetails);
         }
     }
 }

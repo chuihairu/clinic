@@ -13,31 +13,29 @@ import java.util.List;
 @NoArgsConstructor
 public class UserPrincipal implements UserDetails {
     private static final long serialVersionUID = 1L;
-    private String username;
-    private String password;
-    private boolean enabled;
-    private List<GrantedAuthority> authorities;
+    private StaffEntity staff;
 
     public UserPrincipal(StaffEntity staff) {
-        this.username = staff.getUsername();
-        this.password = staff.getPassword();
-        this.enabled = staff.isEnabled();
-        this.authorities = (List<GrantedAuthority>) staff.getAuthorities();
+        this.staff = staff;
+    }
+
+    public StaffEntity getStaff() {
+        return this.staff;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return authorities;
+        return this.staff.getAuthorities();
     }
 
     @Override
     public String getPassword() {
-        return password;
+        return this.staff.getPassword();
     }
 
     @Override
     public String getUsername() {
-        return username;
+        return this.staff.getUsername();
     }
 
     @Override
@@ -57,6 +55,6 @@ public class UserPrincipal implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return enabled;
+        return this.staff.isEnabled();
     }
 }

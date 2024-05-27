@@ -21,6 +21,7 @@ public class JwtService {
     public static String Header = "Authorization";
     public static String RefreshHeader = "Refresh";
     public static String Prefix = "Bearer ";
+    public static String UserPrincipal = "userPrincipal";
     public static String Name = "jwt";
     @Value("${application.security.jwt.secret-key}")
     private String secretKey;

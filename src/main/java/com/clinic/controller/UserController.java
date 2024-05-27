@@ -4,6 +4,7 @@ package com.clinic.controller;
 import com.clinic.entity.StaffEntity;
 import com.clinic.params.AuthParams;
 import com.clinic.security.JwtService;
+import com.clinic.security.UserPrincipal;
 import com.clinic.service.StaffService;
 import com.clinic.vo.LoginView;
 import com.clinic.vo.UserView;
@@ -52,7 +53,10 @@ public class UserController {
     }
     @GetMapping("/current")
     public UserView current(HttpServletRequest request){
-        StaffEntity currentStaff = (StaffEntity)request.getSession().getAttribute("currentStaff");
+        UserPrincipal userPrincipal = (UserPrincipal)request.getSession().getAttribute(JwtService.UserPrincipal);
+        if(userPrincipal==null)
+            return UserView.builder().build();
+        StaffEntity currentStaff = userPrincipal.getStaff();
         return UserView.FromStaffEntity(currentStaff);
     }
 }
